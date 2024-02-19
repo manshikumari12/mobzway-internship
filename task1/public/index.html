@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+</head>
+
+<body>
+    <h1>Hi, welcome Manshi!</h1>
+
+
+
+    <input type="text" placeholder="Enter message" id="message">
+    <button id="sendBtn">Send</button>
+    <div id="msg1"></div>
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io("/data-namespace");
+        const sendBtn = document.getElementById("sendBtn");
+        const msgInput = document.getElementById("message");
+        const allMsg = document.getElementById("msg1");
+
+        socket.on("message", (msg) => {
+            const p = document.createElement("p");
+            p.innerText = msg;
+            allMsg.appendChild(p);
+        });
+        socket.on("connectedroom",(data)=>{
+            document.write(data)
+        })
+        sendBtn.addEventListener("click", (e) => {
+            const msg = msgInput.value;
+            socket.emit("to-manshi", msg);
+            msgInput.value = ""; 
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Form</title>
+</head>
+
+<body>
+    <h1>User Form</h1>
+    <form id="userForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+    
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+    
+        <label for="mobileNo">Mobile Number:</label>
+        <input type="text" id="mobileNo" name="mobileNo" required pattern="[0-9]{10}"
+            title="Mobile number must be 10 digits"><br><br>
+    
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+    
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" required><br><br>
+    
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required><br><br>
+    
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" required><br><br>
+    
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required><br><br>
+    
+        <label for="loginId">Login ID:</label>
+        <input type="text" id="loginId" name="loginId" required pattern="[a-zA-Z0-9]{8}"
+            title="Login ID must be 8 characters alphanumeric"><br><br>
+    
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}"
+            title="Password must be 6 characters with at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"><br><br>
+    
+        <button type="submit">Save</button>
+    </form>
+    
+    <div id="users"></div>
+   
+</body>
+
+</html>
+<script>
+
+
+    as
+
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     const userForm = document.getElementById('userForm');
+
+    //     userForm.addEventListener('submit', async (event) => {
+    //         event.preventDefault();
+
+    //         const formData = new FormData(userForm);
+
+    //         try {
+    //             const response = await fetch('http://localhost:1111/api/user/userData', {
+    //                 method: 'POST',
+    //                 body: formData
+    //             });
+
+    //             if (!response.ok) {
+    //                 throw new Error('Error saving user');
+    //             }
+
+    //             alert('User saved successfully');
+    //             userForm.reset();
+    //         } catch (error) {
+    //             alert('Error saving user');
+    //             console.error(error);
+    //         }
+    //     });
+
+    //     // Fetch users and display in the HTML
+    //     fetch('http://localhost:1111/user')
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Error fetching users');
+    //             }
+    //             return response.json();
+    //         })
+    //         .then(users => {
+    //             const usersHtml = users.map(user => `<p>${user.firstName} ${user.lastName}</p>`).join('');
+    //             document.getElementById('users').innerHTML = usersHtml;
+    //         })
+    //         .catch(error => {
+    //             alert('Error fetching users');
+    //             console.error(error);
+    //         });
+    // });
+</scrip

@@ -6,11 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Form</title>
+    <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
-    <h1>User Form</h1>
+  
     <form id="userForm">
+        <h1>User Form</h1>
         <label for="firstName">First Name:</label>
         <input type="text" id="firstName" name="firstName" required><br><br>
     
@@ -44,10 +46,10 @@
         <input type="password" id="password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}"
             title="Password must be 6 characters with at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"><br><br>
     
-        <button type="submit">Save</button>
+        <button type="submit" id="btn">submit</button>
     </form>
     
-    <div id="users"></div>
+    <div id="userscontainer"></div>
    
 </body>
 
@@ -55,49 +57,97 @@
 <script>
 
 
-    as
+    async function fetchData(){
+        try {
+            const res = await fetch("http://localhost:1111/user")
+            const data = await res.json()
+            console.log(data)
+            dataretrive(data)
 
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     const userForm = document.getElementById('userForm');
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+    fetchData()
 
-    //     userForm.addEventListener('submit', async (event) => {
-    //         event.preventDefault();
 
-    //         const formData = new FormData(userForm);
+    const userForm = document.getElementById('userForm');
 
-    //         try {
-    //             const response = await fetch('http://localhost:1111/api/user/userData', {
-    //                 method: 'POST',
-    //                 body: formData
-    //             });
+    userForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    //             if (!response.ok) {
-    //                 throw new Error('Error saving user');
-    //             }
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const mobileNo = document.getElementById('mobileNo').value;
+        const email = document.getElementById('email').value;
+        const street = document.getElementById('street').value;
+        const city = document.getElementById('city').value;
+        const state = document.getElementById('state').value;
+        const country = document.getElementById('country').value;
+        const loginId = document.getElementById('loginId').value;
+        const password = document.getElementById('password').value;
 
-    //             alert('User saved successfully');
-    //             userForm.reset();
-    //         } catch (error) {
-    //             alert('Error saving user');
-    //             console.error(error);
-    //         }
-    //     });
+        const obj = {
+            firstName,
+            lastName,
+            mobileNo,
+            email,
+            address: {
+                street,
+                city,
+                state,
+                country
+            },
+            loginId,
+            password
+        };
 
-    //     // Fetch users and display in the HTML
-    //     fetch('http://localhost:1111/user')
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Error fetching users');
-    //             }
-    //             return response.json();
-    //         })
-    //         .then(users => {
-    //             const usersHtml = users.map(user => `<p>${user.firstName} ${user.lastName}</p>`).join('');
-    //             document.getElementById('users').innerHTML = usersHtml;
-    //         })
-    //         .catch(error => {
-    //             alert('Error fetching users');
-    //             console.error(error);
-    //         });
-    // });
-</scrip
+        console.log(obj);
+
+        try {
+            const response = await fetch("http://localhost:1111/user/userData", {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            });
+
+            if (response.ok) {
+                const res = await response.json();
+              
+                fetchData();
+                alert("User created successfully");
+                userForm.reset(); 
+            } else {
+                throw new Error("Failed to create user");
+            }
+        } catch (error) {
+            console.error("Error:", error.message);
+            alert("Error in creating user");
+        }
+    });
+ const conatiner = document.getElementById("userscontainer")
+  function dataretrive(data){
+    conatiner.innerHTML = "";
+    data.forEach(element => {
+        const card = document.createElement("div")
+        card.innerHTML=`
+    <h1>User Data</h1>
+    <p>First Name: ${element.firstName}</p>
+    <p>Last Name: ${element.lastName}</p>
+    <p>Mobile No: ${element.mobileNo}</p>
+    <p>Email: ${element.email}</p>
+    <p>Address: ${element.address.street}, ${element.address.city}, ${element.address.state}, ${element.address.country}</p>
+    <p>Login ID: ${element.loginId}</p>
+    <p>Password: ${element.password}</p>
+        `
+        conatiner.appendChild(card);
+    });
+  }
+
+
+
+
+</script>

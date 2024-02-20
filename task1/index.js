@@ -676,15 +676,63 @@
 //     console.log("Server is running");
 // });
 
+const express = require("express");
+const { Server } = require("socket.io");
+const { connection } = require("./db");
+const http = require("http");
+
+const app = express();
+const server = http.createServer(app);
+
+app.use(express.json());
+
+app.get("/", (req, res) => {
+    res.send("base point end");
+});
+
+server.listen(1212, async () => {
+    try {
+        await connection;
+        console.log("connected to db");
+    } catch (error) {
+        console.log(error);
+    }
+    console.log("server is running");
+});
+
+const websocketserver = new Server(server);
+var nsp = websocketserver.of('/my-namespace');
+let count = 0;
+var roomno = 1;
+
+nsp.on("connection", (socket) => {
+    count++;
+    socket.join("room-"+roomno);
+    nsp.emit("newuser", count);
+    socket.emit('connectToRoom', "You are in room no. "+roomno);
+
+    socket.on("message", (sandesh) => {
+        nsp.in("room-"+roomno).emit("usermsg", sandesh, { description: count + ' clients connected!' });
+    });
+
+    socket.on('disconnect', () => {
+        count--;
+        nsp.emit("newuser", count);
+    });
+});
 
 
+// nsp.on("connection", (socket) => {
+//     count++;
+//     socket.join("room-"+roomno);
+//     nsp.emit("newuser", count);
+//      socket.sockets.in("room-"+roomno).emit('connectToRoom', "You are in room no. "+roomno);
+//     socket.on("message", (sandesh) => {
+//         nsp.emit("usermsg", sandesh, { description: count + ' clients connected!' });
+//     });
 
-
-
-
-
-
-
-
-
-
+//     socket.on('disconnect', () => {
+//         count--;
+//         nsp.emit("newuser", count);
+//     });
+// });

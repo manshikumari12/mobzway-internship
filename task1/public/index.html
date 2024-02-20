@@ -1,44 +1,119 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
+  
 </head>
 
 <body>
     <h1>Hi, welcome Manshi!</h1>
-
-
-
-    <input type="text" placeholder="Enter message" id="message">
+     <input type="text" placeholder="Enter message" id="message"> 
     <button id="sendBtn">Send</button>
     <div id="msg1"></div>
 
 
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io("/data-namespace");
-        const sendBtn = document.getElementById("sendBtn");
-        const msgInput = document.getElementById("message");
-        const allMsg = document.getElementById("msg1");
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+    integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+    crossorigin="anonymous"></script>
 
-        socket.on("message", (msg) => {
-            const p = document.createElement("p");
-            p.innerText = msg;
-            allMsg.appendChild(p);
-        });
-        socket.on("connectedroom",(data)=>{
-            document.write(data)
-        })
-        sendBtn.addEventListener("click", (e) => {
-            const msg = msgInput.value;
-            socket.emit("to-manshi", msg);
-            msgInput.value = ""; 
-        });
-    </script>
+   <script>
+ 
+    const socket = io("http://localhost:1111/", {transports:["websocket"]})
+    
+   
+
+
+    socket.on("message", function (msg){
+        console.log(msg)
+    })
+    
+
+
+
+
+
+
+
+    
+    // const socket = io("/data-namespace");
+    // const sendBtn = document.getElementById("sendBtn");
+    // const msgInput = document.getElementById("message");
+    // const allMsg = document.getElementById("msg1");
+
+    // socket.on("message", (msg) => {
+    //     const p = document.createElement("p");
+    //     p.innerText = msg;
+    //     allMsg.appendChild(p);
+    // });
+    // socket.on("connectedroom", (data) => {
+    //     document.write(data)
+    // })
+    // sendBtn.addEventListener("click", (e) => {
+    //     const msg = msgInput.value;
+    //     socket.emit("message", msg);
+    //     msgInput.value = "";
+    // });
+</script>
 </body>
 
+</html>
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>cht</h1>
+    <h3> Room Name:</h3>
+    <h2 id="room-name"></h2>
+    <h2>Total users : <b id="usercount"></b></h2>
+    <input type="text" placeholder="message..." />
+    <div id="messages">
+    
+    </div>
+    <button id="sendBtn">send</button>
+
+
+
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+        integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+        crossorigin="anonymous"></script>
+    <script>
+        const socket = io("http://localhost:1212/my-namespace", { transports: ["websocket"] });
+
+        socket.on("message", (msg) => {
+            console.log(msg);
+        });
+        const roomName = document.getElementById("room-name")
+        socket.on("newuser", (msg) => {
+            const count_tag = document.getElementById("usercount");
+            count_tag.innerText = msg;
+        });
+
+        socket.on("usermsg", (msg) => {
+            const div_tag = document.getElementById("messages");
+            const message_div = document.createElement("div");
+            message_div.innerText = msg;
+            div_tag.appendChild(message_div);
+        });
+
+        const sendBtn = document.getElementById("sendBtn");
+
+        sendBtn.addEventListener("click", () => {
+            const message = document.querySelector("input").value;
+            socket.emit("message", message);
+        });
+          socket.on('connectToRoom', (msg) => {
+                console.log(msg);
+            })
+    </script>
+</body>
 </html>

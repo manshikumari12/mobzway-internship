@@ -676,6 +676,7 @@
 //     console.log("Server is running");
 // });
 
+
 const express = require("express");
 const { Server } = require("socket.io");
 const { connection } = require("./db");
@@ -700,19 +701,21 @@ server.listen(1212, async () => {
     console.log("server is running");
 });
 
+
+
 const websocketserver = new Server(server);
 var nsp = websocketserver.of('/my-namespace');
 let count = 0;
-var roomno = 1;
 
+var roomno = 1;
 nsp.on("connection", (socket) => {
     count++;
-    socket.join("room-"+roomno);
+    
     nsp.emit("newuser", count);
-    socket.emit('connectToRoom', "You are in room no. "+roomno);
+    console.log("newuser", count)
 
     socket.on("message", (sandesh) => {
-        nsp.in("room-"+roomno).emit("usermsg", sandesh, { description: count + ' clients connected!' });
+        nsp.emit("usermsg", sandesh, { description: count + ' clients connected!' });
     });
 
     socket.on('disconnect', () => {
@@ -720,19 +723,3 @@ nsp.on("connection", (socket) => {
         nsp.emit("newuser", count);
     });
 });
-
-
-// nsp.on("connection", (socket) => {
-//     count++;
-//     socket.join("room-"+roomno);
-//     nsp.emit("newuser", count);
-//      socket.sockets.in("room-"+roomno).emit('connectToRoom', "You are in room no. "+roomno);
-//     socket.on("message", (sandesh) => {
-//         nsp.emit("usermsg", sandesh, { description: count + ' clients connected!' });
-//     });
-
-//     socket.on('disconnect', () => {
-//         count--;
-//         nsp.emit("newuser", count);
-//     });
-// });

@@ -1,1 +1,0 @@
-# mobzway-internship

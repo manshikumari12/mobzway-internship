@@ -77,70 +77,7 @@ userRouter.get("/:email",async(req,res)=>{
     }
 })
 
-// userRouter.post("/register",async(req,res)=>{
-//     const { firstName, lastName, mobileNo, email, address, loginId, password } = req.body;
-//     if (!email || !password || !name) {
-//         return res.status(401).json({ message: 'All fields are required' });
-//     } else {
-//         try {
-//             const isUserPressent = await userModel.findOne({ email: email });
-//             if (isUserPressent) {
-//                 return res.status(409).json({ message: "Email already exists" })
-//             } else {
 
-//                 bcrypt.hash(password, saltRounds, async (err, hash) => {
-//                     if (hash) {
-//                         let new_user = new userModel({
-//                             email: email,
-//                             password: hash,
-//                             name: name
-//                         });
-
-//                         await new_user.save();
-//                         return res.status(201).send({ message: 'Registered Successfully' });
-//                     } else {
-//                         throw err;
-//                     }
-//                 });
-//             }
-//         } catch (error) {
-//             return res.status(400).send({ message: "Registered failed" })
-//         }
-//     }
-// })
-// userRouter.post("/login",async(req,res)=>{
-//    const { email, password,mobileNo,address } = req.body;
-//     if (!email || !password) {
-//         return res.status(401).json({ message: 'All fields are required' });
-
-//     } else {
-//         let isUserPresnt = await userModel.findOne({ email });
-
-//         if (isUserPresnt) {
-//             bcrypt.compare(password, isUserPresnt.password, function (err, result) {
-//                 if (result) {
-//                     const token = jwt.sign({
-//                          name: isUserPresnt.name,
-//                         email: isUserPresnt.email,
-//                         mobileNo: isUserPresnt.mobileNo,
-//                         address: isUserPresnt.address }, "manshi", { expiresIn: '24h' }
-//                          );
-//                     return res.status(200).send({
-//                             token: token,
-//                         name: isUserPresnt.name,
-//                         email: isUserPresnt.email,
-//                         mobileNo: isUserPresnt.mobileNo,
-//                         address: isUserPresnt.address
-//                         });
-//                 } else {
-//                     return res.status(403).send({ message: 'Invalid Credentials' });
-//                 }
-//             });
-//         } else {
-//             return res.status(404).send({ message: 'No user found with this Email' });
-//         }
-//     }
-// })
 
 userRouter.post("/login", async (req, res) => {
     const { email, password } = req.body;

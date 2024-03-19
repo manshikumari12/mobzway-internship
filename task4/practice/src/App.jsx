@@ -10,6 +10,8 @@ import RealTimeClock from './Component/RealTimeClock';
 import ParentComponent from './Component/ParentComponent';
 import { MyComponent } from './Component/MyComponent';
 import List from './Component/List';
+import Form from './Component/Form';
+import Style from './Component/Style';
 
 
 // import About from './Component/About';
@@ -25,7 +27,7 @@ function App() {
 
   return (
     <>
-
+    <Style/>
     <BrowserRouter>
     <div>
       <div style={stylenav}>
@@ -36,6 +38,12 @@ function App() {
         <NavLink to="/parent"  activeClassName="active" style={{ color: "white" }}>ParentComponent</NavLink>
         <NavLink to="/counter"  activeClassName="active" style={{ color: "white" }}>Counter</NavLink>
         <NavLink to="/list"  activeClassName="active" style={{ color: "white" }}>List</NavLink>
+        <NavLink to="/form"  activeClassName="active" style={{ color: "white" }}>Form</NavLink>
+        <NavLink to="/jst"  activeClassName="active" style={{ color: "white" }}>Form</NavLink>
+
+        
+        
+
 
 
         
@@ -47,6 +55,10 @@ function App() {
   <Route exact path="/parent" element={<ParentComponent/>} />
   <Route exact path="/counter" element={<MyComponent/>} />
   <Route exact path="/list" element={<List/>} />
+  <Route exact path="/form" element={<Form/>} />
+  <Route exact path="/jst" element={<Jest/>} />
+
+
 
 
 
